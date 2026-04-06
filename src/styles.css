@@ -36,6 +36,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 html,
@@ -84,6 +85,7 @@ body {
     radial-gradient(circle at top right, rgba(37, 99, 235, 0.1), transparent 28%),
     linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 100%);
   transition: background 250ms ease, color 250ms ease;
+  overflow-x: hidden;
 }
 
 button,
