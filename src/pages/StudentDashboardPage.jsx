@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../components/Button';
 import { Card } from '../components/Card';
 import { CourseApplicationForm, LeaveForm } from '../components/Forms';
@@ -7,6 +7,7 @@ import { Modal } from '../components/Modal';
 import { StatusBadge } from '../components/StatusBadge';
 import { StatCard } from '../components/StatCard';
 import { useToast } from '../components/ToastProvider';
+import { usePortalMotion } from '../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { logoutStudent } from '../redux/slices/authSlice';
 import { fetchApplications, fetchCourses, submitApplication } from '../redux/slices/courseSlice';
@@ -21,6 +22,9 @@ export const StudentDashboardPage = () => {
   const leaveState = useAppSelector((state) => state.leaves);
   const [courseModal, setCourseModal] = useState(false);
   const [leaveModal, setLeaveModal] = useState(false);
+  const pageRef = useRef(null);
+
+  usePortalMotion(pageRef);
 
   useEffect(() => {
     dispatch(fetchCourses());
@@ -32,16 +36,16 @@ export const StudentDashboardPage = () => {
   const myLeaves = useMemo(() => leaveState.items.filter((item) => item.studentName === student?.name), [leaveState.items, student]);
 
   return (
-    <div className="page-shell space-y-6 py-4">
-      <Card className="relative overflow-hidden p-6 sm:p-8">
+    <div className="page-shell space-y-6 py-4" data-motion="page-shell" ref={pageRef}>
+      <Card className="relative overflow-hidden p-6 sm:p-8" data-motion="hero-card">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-violet-200">Student Dashboard</p>
-            <h1 className="mt-3 text-3xl font-bold tracking-tight text-white">Hello, {student?.name || 'Student'}</h1>
-            <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-400">Track your course applications, review leave activity, and manage the key student tasks from one focused workspace.</p>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-violet-200" data-motion="copy">Student Dashboard</p>
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-white" data-motion="heading">Hello, {student?.name || 'Student'}</h1>
+            <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-400" data-motion="copy">Track your course applications, review leave activity, and manage the key student tasks from one focused workspace.</p>
           </div>
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3" data-motion="actions">
             <Button onClick={() => setCourseModal(true)} variant="secondary">Apply for Course</Button>
             <Button onClick={() => setLeaveModal(true)}>Request Leave</Button>
             <Button onClick={() => dispatch(logoutStudent())} variant="ghost">Logout</Button>
@@ -56,7 +60,7 @@ export const StudentDashboardPage = () => {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1fr_1fr]">
-        <Card className="relative overflow-hidden p-6">
+        <Card className="relative overflow-hidden p-6" data-motion="card" data-origin="left">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
@@ -67,7 +71,7 @@ export const StudentDashboardPage = () => {
           </div>
           <div className="space-y-4">
             {courseState.items.map((course) => (
-              <div className="border border-white/8 bg-white/5 p-4" key={course.id}>
+              <div className="border border-white/8 bg-white/5 p-4" data-wave="soft" key={course.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h3 className="font-semibold text-white">{course.name}</h3>
@@ -80,13 +84,13 @@ export const StudentDashboardPage = () => {
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden p-6">
+        <Card className="relative overflow-hidden p-6" data-motion="card" data-origin="right">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">Attendance</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white">Leave History</h2>
           </div>
-          <div className="mt-5 overflow-x-auto">
+          <div className="mt-5 overflow-x-auto" data-motion="table">
             <table className="min-w-full text-left text-sm">
               <thead className="text-slate-400">
                 <tr>

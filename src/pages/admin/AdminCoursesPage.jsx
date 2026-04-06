@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { CourseCard } from '../../components/CourseCard';
 import { CourseEditorForm } from '../../components/Forms';
 import { Modal } from '../../components/Modal';
 import { Topbar } from '../../components/Topbar';
 import { useToast } from '../../components/ToastProvider';
+import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchCourses, saveCourse } from '../../redux/slices/courseSlice';
 
@@ -12,13 +13,16 @@ export const AdminCoursesPage = () => {
   const { showToast } = useToast();
   const courses = useAppSelector((state) => state.courses.items);
   const [editingCourse, setEditingCourse] = useState(null);
+  const pageRef = useRef(null);
+
+  usePortalMotion(pageRef);
 
   useEffect(() => {
     dispatch(fetchCourses());
   }, [dispatch]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
       <Topbar actionLabel="Add Course" onAction={() => setEditingCourse({ name: '', description: '', status: 'Open' })} subtitle="Add or update courses using modal forms." title="Course Management" />
       <div className="grid gap-5 md:grid-cols-2">
         {courses.map((course) => (

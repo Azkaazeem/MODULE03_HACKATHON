@@ -13,10 +13,10 @@ export const Navbar = () => {
   }, [location.pathname]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/8 bg-slate-950/55 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-white/8 bg-slate-950/55 backdrop-blur-xl" data-motion="hero-card">
       <div className="page-shell py-4">
         <div className="flex items-center justify-between gap-4">
-          <Link className="flex items-center gap-4" to="/">
+          <Link className="flex items-center gap-4" data-motion="heading" to="/">
             <img alt="SMIT Connect Portal" className="h-11 w-auto object-contain sm:h-12" src={logo} />
             <div className="hidden border-l border-white/10 pl-4 sm:block">
               <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-slate-400">Student Portal</p>
@@ -24,7 +24,7 @@ export const Navbar = () => {
             </div>
           </Link>
 
-          <nav className="hidden items-center gap-2 lg:flex">
+          <nav className="hidden items-center gap-2 lg:flex" data-motion="actions">
             {NAV_LINKS.map((link) => (
               <NavLink
                 className={({ isActive }) => `rounded-full px-4 py-2 text-sm transition ${isActive ? 'bg-white/10 text-white' : 'text-slate-300 hover:bg-white/6'}`}
@@ -60,7 +60,7 @@ export const Navbar = () => {
         </div>
 
         {menuOpen ? (
-          <div className="mt-4 space-y-2 border border-white/10 bg-slate-950/80 p-4 backdrop-blur-xl sm:hidden">
+          <div className="mt-4 space-y-2 border border-white/10 bg-slate-950/80 p-4 backdrop-blur-xl sm:hidden" data-motion="card" data-origin="down">
             {NAV_LINKS.map((link) => (
               <NavLink
                 className={({ isActive }) => `block border px-4 py-3 text-sm font-medium transition ${isActive ? 'border-white/10 bg-white/10 text-white' : 'border-transparent text-slate-300 hover:border-white/10 hover:bg-white/6'}`}

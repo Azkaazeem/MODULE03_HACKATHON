@@ -1,7 +1,9 @@
+﻿import { useRef } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { AuthForm } from '../../components/Forms';
 import { useToast } from '../../components/ToastProvider';
+import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { adminLogin } from '../../redux/slices/authSlice';
 
@@ -10,17 +12,24 @@ export const AdminLoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const pageRef = useRef(null);
+
+  usePortalMotion(pageRef);
 
   if (admin) return <Navigate replace to="/admin/dashboard" />;
 
   return (
-    <div className="page-shell flex min-h-[76vh] items-center justify-center py-10">
-      <Card className="relative w-full max-w-2xl overflow-hidden p-8 sm:p-10">
+    <div className="page-shell relative flex min-h-[76vh] items-center justify-center py-10" data-motion="page-shell" ref={pageRef}>
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-[10%] top-[22%] h-32 w-32 rounded-full bg-emerald-400/8 blur-3xl" data-float="soft" />
+        <div className="absolute right-[12%] bottom-[18%] h-24 w-24 rounded-full border border-white/10" data-spin="slow" />
+      </div>
+      <Card className="relative w-full max-w-2xl overflow-hidden p-8 sm:p-10" data-motion="hero-card">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
-        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-violet-200">Admin Login</p>
-        <h1 className="mt-4 text-4xl font-bold tracking-tight text-white">Secure admin access</h1>
-        <p className="mt-3 max-w-xl text-sm leading-7 text-slate-400">Use your admin credentials to manage student records, admissions, and leave approval activity from the dashboard.</p>
-        <div className="mt-8">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-violet-200" data-motion="copy">Admin Login</p>
+        <h1 className="mt-4 text-4xl font-bold tracking-tight text-white" data-motion="heading">Secure admin access</h1>
+        <p className="mt-3 max-w-xl text-sm leading-7 text-slate-400" data-motion="copy">Use your admin credentials to manage student records, admissions, and leave approval activity from the dashboard.</p>
+        <div className="mt-8" data-motion="actions">
           <AuthForm
             buttonLabel="Login"
             fields={[

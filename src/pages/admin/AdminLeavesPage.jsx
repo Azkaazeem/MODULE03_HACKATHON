@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
@@ -7,6 +7,7 @@ import { Modal } from '../../components/Modal';
 import { StatusBadge } from '../../components/StatusBadge';
 import { Topbar } from '../../components/Topbar';
 import { useToast } from '../../components/ToastProvider';
+import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchLeaves, updateLeaveStatus } from '../../redux/slices/leaveSlice';
 import { formatDate } from '../../utils/helpers';
@@ -17,15 +18,18 @@ export const AdminLeavesPage = () => {
   const leaves = useAppSelector((state) => state.leaves.items);
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, status: '', leaveId: '' });
+  const pageRef = useRef(null);
+
+  usePortalMotion(pageRef);
 
   useEffect(() => {
     dispatch(fetchLeaves());
   }, [dispatch]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
       <Topbar subtitle="Review all leave requests and take action with confirmation." title="Leave Management" />
-      <Card className="rounded-[30px] p-6">
+      <Card className="rounded-[30px] p-6" data-motion="table" data-origin="up">
         {!leaves.length ? <EmptyState description="New leave requests will show here." title="No leave requests" /> : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
@@ -44,7 +48,7 @@ export const AdminLeavesPage = () => {
                     <td className="py-4 pr-4 text-slate-400">{formatDate(leave.fromDate)} - {formatDate(leave.toDate)}</td>
                     <td className="py-4 pr-4"><StatusBadge status={leave.status} /></td>
                     <td className="py-4">
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2" data-wave="soft">
                         <Button onClick={() => setSelectedLeave(leave)} type="button" variant="secondary">View</Button>
                         <Button onClick={() => setConfirm({ open: true, status: 'Approved', leaveId: leave.id })} type="button">Approve</Button>
                         <Button onClick={() => setConfirm({ open: true, status: 'Rejected', leaveId: leave.id })} type="button" variant="danger">Reject</Button>

@@ -27,8 +27,16 @@ const footerColumns = [
 ];
 
 export const Footer = () => (
-  <footer className="border-t border-white/8 bg-slate-950/55">
+  <footer className="relative border-t border-white/8 bg-slate-950/55" data-motion="card" data-origin="up">
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      <div className="absolute left-[8%] top-10 h-28 w-28 rounded-full bg-emerald-400/8 blur-3xl" data-float="soft" />
+      <div className="absolute right-[10%] top-16 h-24 w-24 rounded-full bg-sky-400/10 blur-3xl" data-float="soft" />
+      <div className="absolute right-[18%] bottom-12 h-20 w-20 rounded-full border border-white/10" data-spin="slow" />
+    </div>
     <div className="page-shell py-12">
+      <div className="pointer-events-none absolute inset-0 z-[60] flex items-center justify-center overflow-hidden">
+        <span className="whitespace-nowrap text-[15vw] font-black tracking-tighter text-[#fff] opacity-30">SMIT PORTAL</span>
+      </div>
       <div className="relative overflow-hidden border border-white/8 bg-white/[0.03] p-7 sm:p-8">
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
         <div className="grid gap-8 xl:grid-cols-[1.05fr_0.95fr]">
@@ -38,7 +46,7 @@ export const Footer = () => (
             <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-400">
               The portal is designed to make the student journey feel more structured, less confusing, and more reliable across admissions, requests, records, and communication.
             </p>
-            <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-300">
+            <div className="mt-6 flex flex-wrap gap-4 text-sm text-slate-300" data-wave="soft">
               <Link className="hover:text-white" to="/courses">Explore Courses</Link>
               <Link className="hover:text-white" to="/login">Student Login</Link>
               <Link className="hover:text-white" to="/signup">Signup</Link>
@@ -47,8 +55,8 @@ export const Footer = () => (
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
-            {footerColumns.map((column) => (
-              <div className="border border-white/8 bg-white/5 p-5" key={column.title}>
+            {footerColumns.map((column, index) => (
+              <div className="border border-white/8 bg-white/5 p-5" data-motion="card" data-origin={index % 2 === 0 ? 'up' : 'right'} key={column.title}>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">{column.title}</p>
                 <div className="mt-4 space-y-3 text-sm leading-7 text-slate-300">
                   {column.items.map((item) => (

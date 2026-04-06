@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { Modal } from '../../components/Modal';
@@ -6,6 +6,7 @@ import { StatCard } from '../../components/StatCard';
 import { Topbar } from '../../components/Topbar';
 import { AdminSettingsForms } from '../../components/Forms';
 import { useToast } from '../../components/ToastProvider';
+import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppSelector } from '../../redux/hooks';
 import { portalService } from '../../services/portalService';
 
@@ -16,15 +17,18 @@ export const AdminDashboardPage = () => {
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [studentsCount, setStudentsCount] = useState(0);
   const { showToast } = useToast();
+  const pageRef = useRef(null);
+
+  usePortalMotion(pageRef);
 
   useEffect(() => {
     portalService.fetchStudents().then((data) => setStudentsCount(data.length));
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
       <Topbar
-        action={<div className="flex flex-wrap gap-3"><Button onClick={() => setPasswordOpen(true)} variant="secondary">Change Password</Button><Button onClick={() => setAddAdminOpen(true)}>Add Admin</Button></div>}
+        action={<div className="flex flex-wrap gap-3" data-wave="soft"><Button onClick={() => setPasswordOpen(true)} variant="secondary">Change Password</Button><Button onClick={() => setAddAdminOpen(true)}>Add Admin</Button></div>}
         subtitle="Quick overview of portal activity, student volume, course operations, and core admin controls."
         title="Dashboard"
       />
@@ -37,7 +41,7 @@ export const AdminDashboardPage = () => {
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
-        <Card className="relative overflow-hidden p-6">
+        <Card className="relative overflow-hidden p-6" data-motion="card" data-origin="left">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">Applications</p>
@@ -45,7 +49,7 @@ export const AdminDashboardPage = () => {
           </div>
           <div className="mt-5 space-y-4">
             {applications.length ? applications.slice(0, 4).map((item) => (
-              <div className="border border-white/8 bg-white/5 p-4" key={item.id}>
+              <div className="border border-white/8 bg-white/5 p-4" data-wave="soft" key={item.id}>
                 <p className="font-semibold text-white">{item.name}</p>
                 <p className="mt-1 text-sm text-slate-400">Applied for {item.courseName}</p>
               </div>
@@ -53,7 +57,7 @@ export const AdminDashboardPage = () => {
           </div>
         </Card>
 
-        <Card className="relative overflow-hidden p-6">
+        <Card className="relative overflow-hidden p-6" data-motion="card" data-origin="right">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-emerald-400/55 via-sky-400/35 to-transparent" />
           <div>
             <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-400">Control Notes</p>
