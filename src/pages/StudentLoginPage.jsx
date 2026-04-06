@@ -1,9 +1,7 @@
-﻿import { useRef } from 'react';
 import { Navigate, Link, useNavigate } from 'react-router-dom';
 import { AuthForm } from '../components/Forms';
 import { Card } from '../components/Card';
 import { useToast } from '../components/ToastProvider';
-import { usePortalMotion } from '../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { clearAuthError, studentLogin } from '../redux/slices/authSlice';
 
@@ -12,14 +10,11 @@ export const StudentLoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const pageRef = useRef(null);
-
-  usePortalMotion(pageRef);
 
   if (student) return <Navigate replace to="/student/dashboard" />;
 
   return (
-    <div className="page-shell relative flex min-h-[76vh] items-center justify-center py-10" data-motion="page-shell" ref={pageRef}>
+    <div className="page-shell relative flex min-h-[76vh] items-center justify-center py-10" data-motion="page-shell">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[8%] top-[18%] h-28 w-28 rounded-full bg-emerald-400/10 blur-3xl" data-float="soft" />
         <div className="absolute right-[10%] bottom-[18%] h-24 w-24 rounded-full border border-white/10" data-spin="slow" />

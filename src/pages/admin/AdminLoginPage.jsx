@@ -1,9 +1,7 @@
-﻿import { useRef } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { Card } from '../../components/Card';
 import { AuthForm } from '../../components/Forms';
 import { useToast } from '../../components/ToastProvider';
-import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { adminLogin } from '../../redux/slices/authSlice';
 
@@ -12,14 +10,11 @@ export const AdminLoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { showToast } = useToast();
-  const pageRef = useRef(null);
-
-  usePortalMotion(pageRef);
 
   if (admin) return <Navigate replace to="/admin/dashboard" />;
 
   return (
-    <div className="page-shell relative flex min-h-[76vh] items-center justify-center py-10" data-motion="page-shell" ref={pageRef}>
+    <div className="page-shell relative flex min-h-[76vh] items-center justify-center py-10" data-motion="page-shell">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[10%] top-[22%] h-32 w-32 rounded-full bg-emerald-400/8 blur-3xl" data-float="soft" />
         <div className="absolute right-[12%] bottom-[18%] h-24 w-24 rounded-full border border-white/10" data-spin="slow" />
