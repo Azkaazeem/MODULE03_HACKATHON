@@ -1,21 +1,16 @@
-﻿import { useRef } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Sidebar } from '../components/Sidebar';
 import { Button } from '../components/Button';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { logoutAdmin } from '../redux/slices/authSlice';
-import { usePortalMotion } from '../hooks/usePortalMotion';
 
 export const AdminLayout = () => {
   const admin = useAppSelector((state) => state.auth.admin);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const layoutRef = useRef(null);
-
-  usePortalMotion(layoutRef);
 
   return (
-    <div className="relative overflow-hidden" ref={layoutRef}>
+    <div className="relative overflow-hidden">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-[-5rem] top-24 h-52 w-52 rounded-full bg-emerald-400/8 blur-3xl" data-float="soft" />
         <div className="absolute right-[-4rem] top-40 h-64 w-64 rounded-full bg-sky-400/10 blur-3xl" data-float="soft" />

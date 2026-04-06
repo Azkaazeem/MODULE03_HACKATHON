@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { ConfirmDialog } from '../../components/ConfirmDialog';
@@ -7,7 +7,6 @@ import { Modal } from '../../components/Modal';
 import { StatusBadge } from '../../components/StatusBadge';
 import { Topbar } from '../../components/Topbar';
 import { useToast } from '../../components/ToastProvider';
-import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { fetchLeaves, updateLeaveStatus } from '../../redux/slices/leaveSlice';
 import { formatDate } from '../../utils/helpers';
@@ -18,16 +17,13 @@ export const AdminLeavesPage = () => {
   const leaves = useAppSelector((state) => state.leaves.items);
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [confirm, setConfirm] = useState({ open: false, status: '', leaveId: '' });
-  const pageRef = useRef(null);
-
-  usePortalMotion(pageRef);
 
   useEffect(() => {
     dispatch(fetchLeaves());
   }, [dispatch]);
 
   return (
-    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
+    <div className="space-y-6" data-motion="page-shell">
       <Topbar subtitle="Review all leave requests and take action with confirmation." title="Leave Management" />
       <Card className="rounded-[30px] p-6" data-motion="table" data-origin="up">
         {!leaves.length ? <EmptyState description="New leave requests will show here." title="No leave requests" /> : (

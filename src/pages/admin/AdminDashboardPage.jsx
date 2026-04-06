@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../../components/Button';
 import { Card } from '../../components/Card';
 import { Modal } from '../../components/Modal';
@@ -6,7 +6,6 @@ import { StatCard } from '../../components/StatCard';
 import { Topbar } from '../../components/Topbar';
 import { AdminSettingsForms } from '../../components/Forms';
 import { useToast } from '../../components/ToastProvider';
-import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { useAppSelector } from '../../redux/hooks';
 import { portalService } from '../../services/portalService';
 
@@ -17,16 +16,13 @@ export const AdminDashboardPage = () => {
   const [passwordOpen, setPasswordOpen] = useState(false);
   const [studentsCount, setStudentsCount] = useState(0);
   const { showToast } = useToast();
-  const pageRef = useRef(null);
-
-  usePortalMotion(pageRef);
 
   useEffect(() => {
     portalService.fetchStudents().then((data) => setStudentsCount(data.length));
   }, []);
 
   return (
-    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
+    <div className="space-y-6" data-motion="page-shell">
       <Topbar
         action={<div className="flex flex-wrap gap-3" data-wave="soft"><Button onClick={() => setPasswordOpen(true)} variant="secondary">Change Password</Button><Button onClick={() => setAddAdminOpen(true)}>Add Admin</Button></div>}
         subtitle="Quick overview of portal activity, student volume, course operations, and core admin controls."

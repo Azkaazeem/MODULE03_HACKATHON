@@ -1,25 +1,21 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from '../../components/Card';
 import { EmptyState } from '../../components/EmptyState';
 import { Topbar } from '../../components/Topbar';
 import { useToast } from '../../components/ToastProvider';
-import { usePortalMotion } from '../../hooks/usePortalMotion';
 import { portalService } from '../../services/portalService';
 
 export const AdminStudentsPage = () => {
   const [students, setStudents] = useState([]);
   const [uploading, setUploading] = useState(false);
   const { showToast } = useToast();
-  const pageRef = useRef(null);
-
-  usePortalMotion(pageRef);
 
   useEffect(() => {
     portalService.fetchStudents().then(setStudents);
   }, []);
 
   return (
-    <div className="space-y-6" data-motion="page-shell" ref={pageRef}>
+    <div className="space-y-6" data-motion="page-shell">
       <Topbar subtitle="Upload Excel files and manage the student registry." title="Student Management" />
       <Card className="rounded-[30px] p-6" data-motion="card" data-origin="left">
         <label className="block rounded-[24px] border border-dashed border-white/12 bg-white/4 p-6 text-sm text-slate-300">
